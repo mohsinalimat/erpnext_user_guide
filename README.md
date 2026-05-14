@@ -53,7 +53,7 @@ Comprehensive Frappe/ERPNext guide covering installation, customization, perform
 
 ---
 
-_Last generated: 2026-05-14 16:38:39_
+_Last generated: 2026-05-14 11:10:38_
 
 <!-- DOCS_INDEX_END -->
 
