@@ -1,0 +1,35 @@
+name: Update Docs Index
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    if: github.actor != 'github-actions[bot]'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x scripts/generate_docs_index.sh
+
+      - name: Generate docs index
+        run: ./scripts/generate_docs_index.sh
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add README.md
+
+          git commit -m "Auto-update docs index" || echo "No changes"
+
+          git push
