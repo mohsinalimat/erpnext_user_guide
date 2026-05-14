@@ -9,6 +9,18 @@
 #   - Generate documentation index
 #   - Automatically update README.md section
 #
+# Features
+# --------
+# ✅ Auto-generate README.md documentation index
+# ✅ Group by folders/sub-folders
+# ✅ Human readable titles
+# ✅ Extract description from first markdown header
+# ✅ Last modified date
+# ✅ Category emojis
+# ✅ Alphabetical sorting
+# ✅ Ignore unwanted files
+# ✅ GitHub Actions compatible
+#
 # Requirements:
 #   README.md must contain:
 #
@@ -20,15 +32,16 @@
 #   ./scripts/generate_docs_index.sh
 # =========================================================
 
-set -e
+set -euo pipefail
 
 DOCS_DIR="docs"
 README_FILE="README.md"
+
 TEMP_FILE=$(mktemp)
 
-# ---------------------------------------------------------
-# Validate required files/directories
-# ---------------------------------------------------------
+# ------------------------------------------------------------------------------
+# Validation
+# ------------------------------------------------------------------------------
 
 if [ ! -d "$DOCS_DIR" ]; then
     echo "ERROR: '$DOCS_DIR' directory not found."
@@ -40,39 +53,9 @@ if [ ! -f "$README_FILE" ]; then
     exit 1
 fi
 
-# ---------------------------------------------------------
-# Generate documentation index
-# ---------------------------------------------------------
-
-echo "## 📚 Documentation Index" > "$TEMP_FILE"
-echo "" >> "$TEMP_FILE"
-
-# Process all markdown files
-find "$DOCS_DIR" -type f -name "*.md" | sort | while read -r file; do
-
-    # Remove leading ./ if exists
-    rel_path="${file#./}"
-
-    # Extract filename without extension
-    filename=$(basename "$file" .md)
-
-    # Convert filename to readable title
-    # Example:
-    # server-maintenance-guide -> Server Maintenance Guide
-    title=$(echo "$filename" \
-        | tr '-' ' ' \
-        | sed 's/\b\(.\)/\u\1/g')
-
-    echo "- [${title}](${rel_path})" >> "$TEMP_FILE"
-
-done
-
-echo "" >> "$TEMP_FILE"
-echo "_Last updated: $(date '+%Y-%m-%d %H:%M:%S')_" >> "$TEMP_FILE"
-
-# ---------------------------------------------------------
-# Ensure markers exist in README.md
-# ---------------------------------------------------------
+# ------------------------------------------------------------------------------
+# Ensure README markers exist
+# ------------------------------------------------------------------------------
 
 if ! grep -q "<!-- DOCS_INDEX_START -->" "$README_FILE"; then
     echo "ERROR: DOCS_INDEX_START marker missing in README.md"
@@ -84,9 +67,143 @@ if ! grep -q "<!-- DOCS_INDEX_END -->" "$README_FILE"; then
     exit 1
 fi
 
-# ---------------------------------------------------------
-# Replace section inside README.md
-# ---------------------------------------------------------
+# ------------------------------------------------------------------------------
+# Category Emoji Mapping
+# ------------------------------------------------------------------------------
+
+get_category_emoji() {
+    case "$1" in
+        installation) echo "🚀" ;;
+        setup) echo "🔧" ;;
+        how_to) echo "🛠" ;;
+        networking) echo "🌐" ;;
+        security) echo "🔐" ;;
+        troubleshooting) echo "🚑" ;;
+        performance_tuning) echo "⚡" ;;
+        git) echo "📦" ;;
+        *) echo "📁" ;;
+    esac
+}
+
+# ------------------------------------------------------------------------------
+# Convert text to title case
+# ------------------------------------------------------------------------------
+
+to_title_case() {
+    echo "$1" \
+        | tr '_' ' ' \
+        | tr '-' ' ' \
+        | sed 's/\b\(.\)/\u\1/g'
+}
+
+# ------------------------------------------------------------------------------
+# Generate Header
+# ------------------------------------------------------------------------------
+
+{
+    echo "## 📚 Documentation Index"
+    echo ""
+
+} > "$TEMP_FILE"
+
+# ------------------------------------------------------------------------------
+# Collect Categories
+# ------------------------------------------------------------------------------
+
+declare -A categories
+
+while IFS= read -r file; do
+
+    rel_path="${file#./}"
+
+    # Extract first-level category after docs/
+    category=$(echo "$rel_path" | cut -d'/' -f2)
+
+    categories["$category"]=1
+
+done < <(
+    find "$DOCS_DIR" -type f -name "*.md" \
+    ! -name "README.md" \
+    | sort
+)
+
+# ------------------------------------------------------------------------------
+# Generate Sections
+# ------------------------------------------------------------------------------
+
+for category in $(printf "%s\n" "${!categories[@]}" | sort); do
+
+    emoji=$(get_category_emoji "$category")
+
+    category_title=$(to_title_case "$category")
+
+    {
+        echo "### ${emoji} ${category_title}"
+        echo ""
+        echo "| Document | Description | Updated |"
+        echo "|---|---|---|"
+
+    } >> "$TEMP_FILE"
+
+    # --------------------------------------------------------------------------
+    # Process Files In Category
+    # --------------------------------------------------------------------------
+
+    while IFS= read -r file; do
+
+        rel_path="${file#./}"
+
+        filename=$(basename "$file" .md)
+
+        title=$(to_title_case "$filename")
+
+        # ----------------------------------------------------------------------
+        # Extract Description From First Markdown Header
+        # ----------------------------------------------------------------------
+
+        description=$(grep -m 1 '^# ' "$file" | sed 's/^# //')
+
+        if [ -z "$description" ]; then
+            description="Documentation"
+        fi
+
+        # ----------------------------------------------------------------------
+        # Last Modified Date
+        # ----------------------------------------------------------------------
+
+        updated=$(date -r "$file" '+%Y-%m-%d')
+
+        echo "| [${title}](${rel_path}) | ${description} | ${updated} |" \
+            >> "$TEMP_FILE"
+
+    done < <(
+        find "$DOCS_DIR/$category" -type f -name "*.md" \
+        ! -name "README.md" \
+        | sort
+    )
+
+    {
+        echo ""
+        echo "---"
+        echo ""
+
+    } >> "$TEMP_FILE"
+
+done
+
+# ------------------------------------------------------------------------------
+# Footer
+# ------------------------------------------------------------------------------
+
+{
+    echo "_Last generated: $(date '+%Y-%m-%d %H:%M:%S')_"
+    echo ""
+
+} >> "$TEMP_FILE"
+
+# ------------------------------------------------------------------------------
+# Update README.md
+# ------------------------------------------------------------------------------
 
 awk '
 BEGIN { skip=0 }
