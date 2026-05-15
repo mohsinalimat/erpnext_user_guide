@@ -4,7 +4,7 @@
 
 This document provides a detailed of utility functions for ERPNext / Frappe.
 
-[Source reviewed: ](utils/utils.js)
+[Source: ](../utils/utils.js)
 
 ---
 
