@@ -57,11 +57,11 @@ Comprehensive Frappe/ERPNext guide covering installation, customization, perform
 
 | Document | Description | Updated |
 |---|---|---|
-| [Utils](docs/utils/utils.md) | ERPNext JavaScript Utils Review & Analysis | 2026-05-15 |
+| [Utils](docs/utils/utils.md) | Frappe/ERPNext JavaScript Utils Functions | 2026-05-15 |
 
 ---
 
-_Last generated: 2026-05-15 05:18:04_
+_Last generated: 2026-05-15 05:47:00_
 
 <!-- DOCS_INDEX_END -->
 
