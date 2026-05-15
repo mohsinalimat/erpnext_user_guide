@@ -212,26 +212,4 @@ free -h
 
 ---
 
-# 12. Key Learnings
-
-- Buffer pool should remain within 50–70% of total RAM.
-- Avoid copying production configs from larger servers.
-- MariaDB 11 is strict about invalid memory allocations.
-- Always validate config before restarting MariaDB.
-
----
-
-# 13. Final Outcome
-
-MariaDB server successfully started after:
-
-- fixing systemd variables
-- correcting open file limits
-- creating log directory
-- reducing InnoDB buffer pool size
-
-ERPNext environment became operational again.
-
----
-
 # End of Document

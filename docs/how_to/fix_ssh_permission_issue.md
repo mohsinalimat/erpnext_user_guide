@@ -17,7 +17,7 @@ This issue occurred even after adding the public key into the `authorized_keys` 
 While connecting to a remote server using:
 
 ```bash
-ssh user@12.123.23.32
+ssh user@xx.xx.xx.xx
 ```
 
 the following error appeared:
@@ -50,7 +50,7 @@ Common reasons include:
 If the SSH key is not the default key (`~/.ssh/id_rsa`), specify it explicitly:
 
 ```bash
-ssh -i ~/.ssh/your_private_key user@12.123.23.32
+ssh -i ~/.ssh/your_private_key user@xx.xx.xx.xx
 ```
 
 Check loaded SSH keys:
@@ -104,13 +104,13 @@ Public key stored at:
 But connecting using:
 
 ```bash
-ssh user@12.123.23.32
+ssh user@xx.xx.xx.xx
 ```
 
 ### Correct Command
 
 ```bash
-ssh ubuntu@12.123.23.32
+ssh ubuntu@xx.xx.xx.xx
 ```
 
 ---
@@ -144,7 +144,7 @@ sudo systemctl restart ssh
 Run:
 
 ```bash
-ssh -v user@12.123.23.32
+ssh -v user@xx.xx.xx.xx
 ```
 
 Look for messages such as:

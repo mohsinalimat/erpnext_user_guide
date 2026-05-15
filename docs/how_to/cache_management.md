@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document summarizes the discussion about Ubuntu `~/.cache` directory management, what it contains, and how to safely clear it.
+This document provides details about Ubuntu `~/.cache` directory management, what it contains, and how to safely clear it.
 
 ---
 

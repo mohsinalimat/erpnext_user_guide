@@ -1,7 +1,7 @@
 # NGINX Permission Denied Error Guide
 
 ## Overview
-This document summarizes troubleshooting steps for resolving the NGINX `Permission denied` error for site paths on Ubuntu/Debian systems.
+This document provides troubleshooting steps for resolving the NGINX `Permission denied` error for site paths on Ubuntu/Debian systems.
 
 ---
 
@@ -185,29 +185,5 @@ sudo chmod -R 755 /var/www/my-site
 
 ---
 
-# Information Required for Further Troubleshooting
-
-If the issue persists, collect the following:
-
-1. Exact error from `/var/log/nginx/error.log`
-2. Full site path
-3. Operating system version
-4. Whether the site is located inside `/home`
-
----
-
-# Conversation Summary
-
-The troubleshooting focused on resolving filesystem permission issues preventing NGINX from accessing the configured site root path. The guidance covered:
-
-- Log analysis
-- Directory traversal permissions
-- File read permissions
-- SELinux configuration
-- NGINX root validation
-- Laravel and ERPNext specific fixes
-- Safe permission reset procedures
-
----
 
 # End of Document
