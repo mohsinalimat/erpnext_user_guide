@@ -68,23 +68,22 @@ The analysis is based on:
 
 Frappe is a **metadata‑driven full‑stack framework**. The core layers are:
 
-```
-Browser (Desk SPA)
-    │
-    ▼
-HTTP / WebSocket
-    │
-    ▼
-frappe.app (WSGI entrypoint)
-    │
-    ▼
-frappe.handler (request router)
-    │
-    ▼
-frappe.model.document.Document (ORM)
-    │
-    ▼
-MariaDB / PostgreSQL
+```mermaid
+sequenceDiagram
+    participant Browser as Browser (Desk SPA)
+    participant App as frappe.app (WSGI entrypoint)
+    participant Handler as frappe.handler (request router)
+    participant ORM as frappe.model.document.Document (ORM)
+    participant DB as MariaDB / PostgreSQL
+
+    Browser->>App: HTTP / WebSocket request
+    App->>Handler: route request
+    Handler->>ORM: call Document methods (get/insert/update)
+    ORM->>DB: execute SQL query
+    DB-->>ORM: return data
+    ORM-->>Handler: return Document / result
+    Handler-->>App: prepare response (JSON / HTML)
+    App-->>Browser: send response
 ```
 
 Supporting services:
