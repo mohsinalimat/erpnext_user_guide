@@ -767,7 +767,7 @@ graph LR
 
 **Save Document:**
 ```mermaid
-Fgraph LR
+graph LR
     A[Form] --> B[validate (client)] --> C[before_save] --> D[frappe.call('save')] --> E[handler] --> F[Document.save()] --> G[before_validate] --> H[validate] --> I[before_save] --> J[db_update] --> K[on_update] --> L[response] --> M[after_save (client)] --> N[refresh]
 ```
 
