@@ -81,7 +81,7 @@ Comprehensive Frappe/ERPNext guide covering installation, customization, perform
 
 | Document | Description | Updated |
 |---|---|---|
-| [Repost Technical Analysis](docs/repost_item_valuation/repost_technical_analysis.md) | Enterprise Source-Code Architecture Analysis | 2026-06-09 |
+| [Repost Technical Analysis](docs/repost_item_valuation/repost_technical_analysis.md) | Repost Item Valuation Framework | 2026-06-09 |
 
 ---
 
@@ -105,7 +105,7 @@ Comprehensive Frappe/ERPNext guide covering installation, customization, perform
 
 ---
 
-_Last generated: 2026-06-09 16:37:08_
+_Last generated: 2026-06-09 16:43:41_
 
 <!-- DOCS_INDEX_END -->
 
