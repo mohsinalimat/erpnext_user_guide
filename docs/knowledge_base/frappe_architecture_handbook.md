@@ -761,20 +761,45 @@ Based on architect‑level recommendations from the source analysis:
 
 **Login:**
 ```mermaid
-graph LR
-    A[Browser] --> B["frappe.call('login')"] --> C["auth.py"] --> D["validate credentials"] --> E["create session in Redis"] --> F["return boot"] --> G["Desk loads"]
+sequenceDiagram
+    participant Browser
+    participant auth.py
+    participant Redis
+    Browser->>Frappe: frappe.call('login')
+    Frappe->>auth.py: validate credentials
+    auth.py->>Redis: create session
+    Redis-->>Browser: return boot
+    Browser->>Browser: Desk loads
 ```
 
 **Save Document:**
 ```mermaid
-graph LR
-    A[Form] --> B["validate (client)"] --> C["before_save"] --> D["frappe.call('save')"] --> E["handler"] --> F["Document.save()"] --> G["before_validate"] --> H["validate"] --> I["before_save"] --> J["db_update"] --> K["on_update"] --> L["response"] --> M["after_save (client)"] --> N["refresh"]
+sequenceDiagram
+    participant Client Form
+    participant Server
+    participant Database
+    Client Form->>Client Form: validate + before_save
+    Client Form->>Server: frappe.call('save')
+    Server->>Server: Document.save()
+    Server->>Database: before_validate → validate → before_save → db_update
+    Database-->>Server: on_update
+    Server-->>Client Form: response
+    Client Form->>Client Form: after_save → refresh
 ```
 
 **bench migrate:**
 ```mermaid
-graph LR
-    A[CLI] --> B[frappe/migrate.py] --> C[before_migrate] --> D[patches] --> E[schema sync] --> F[fixtures] --> G[after_migrate] --> H[site ready]
+sequenceDiagram
+    participant CLI
+    participant Bench as bench migrate
+
+    CLI->>Bench: run command
+    Bench->>Bench: before_migrate
+    Bench->>Bench: patches
+    Bench->>Bench: schema sync
+    Bench->>Bench: fixtures
+    Bench->>Bench: after_migrate
+    Bench-->>CLI: site ready
 ```
 
 ---
