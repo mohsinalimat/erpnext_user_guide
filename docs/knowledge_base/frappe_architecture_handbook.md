@@ -761,17 +761,20 @@ Based on architect‑level recommendations from the source analysis:
 
 **Login:**
 ```
-Browser → frappe.call('login') → auth.py → validate credentials → create session in Redis → return boot → Desk loads
+graph LR
+    A[Browser] --> B[frappe.call('login')] --> C[auth.py] --> D[validate credentials] --> E[create session in Redis] --> F[return boot] --> G[Desk loads]
 ```
 
 **Save Document:**
 ```
-Form → validate (client) → before_save → frappe.call('save') → handler → Document.save() → before_validate → validate → before_save → db_update → on_update → response → after_save (client) → refresh
+Fgraph LR
+    A[Form] --> B[validate (client)] --> C[before_save] --> D[frappe.call('save')] --> E[handler] --> F[Document.save()] --> G[before_validate] --> H[validate] --> I[before_save] --> J[db_update] --> K[on_update] --> L[response] --> M[after_save (client)] --> N[refresh]
 ```
 
 **bench migrate:**
 ```
-CLI → frappe/migrate.py → before_migrate → patches → schema sync → fixtures → after_migrate → site ready
+graph LR
+    A[CLI] --> B[frappe/migrate.py] --> C[before_migrate] --> D[patches] --> E[schema sync] --> F[fixtures] --> G[after_migrate] --> H[site ready]
 ```
 
 ---
