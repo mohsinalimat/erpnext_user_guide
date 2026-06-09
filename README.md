@@ -81,13 +81,7 @@ Comprehensive Frappe/ERPNext guide covering installation, customization, perform
 
 | Document | Description | Updated |
 |---|---|---|
-| [Override Avian](docs/repost_item_valuation/override_avian.md) | Copyright (c) 2026, Sanjay Kumar and Contributors | 2026-06-09 |
-| [Repost Analysis](docs/repost_item_valuation/repost_analysis.md) | Functional Analysis | 2026-06-09 |
-| [Repost Override](docs/repost_item_valuation/repost_override.md) | Enterprise Override Framework | 2026-06-09 |
 | [Repost Technical Analysis](docs/repost_item_valuation/repost_technical_analysis.md) | Enterprise Source-Code Architecture Analysis | 2026-06-09 |
-| [Xxxrepost Analysis](docs/repost_item_valuation/xxxrepost_analysis.md) | ERPNext - Repost Item Valuation Deep Technical Analysis | 2026-06-09 |
-| [Xxxrepost Internal Call Hierarchy](docs/repost_item_valuation/xxxrepost_internal_call_hierarchy.md) | Repost Item Valuation Internal Call Hierarchy | 2026-06-09 |
-| [Xxxrepost Override](docs/repost_item_valuation/xxxrepost_override.md) | Monkey Patching `update_entries_after` | 2026-06-09 |
 
 ---
 
@@ -111,7 +105,7 @@ Comprehensive Frappe/ERPNext guide covering installation, customization, perform
 
 ---
 
-_Last generated: 2026-06-09 16:34:36_
+_Last generated: 2026-06-09 16:37:08_
 
 <!-- DOCS_INDEX_END -->
 
