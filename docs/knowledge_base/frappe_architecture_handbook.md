@@ -762,13 +762,13 @@ Based on architect‑level recommendations from the source analysis:
 **Login:**
 ```mermaid
 graph LR
-    A[Browser] --> B[frappe.call('login')] --> C[auth.py] --> D[validate credentials] --> E[create session in Redis] --> F[return boot] --> G[Desk loads]
+    A[Browser] --> B["frappe.call('login')"] --> C["auth.py"] --> D["validate credentials"] --> E["create session in Redis"] --> F["return boot"] --> G["Desk loads"]
 ```
 
 **Save Document:**
 ```mermaid
 graph LR
-    A[Form] --> B[validate (client)] --> C[before_save] --> D[frappe.call('save')] --> E[handler] --> F[Document.save()] --> G[before_validate] --> H[validate] --> I[before_save] --> J[db_update] --> K[on_update] --> L[response] --> M[after_save (client)] --> N[refresh]
+    A[Form] --> B["validate (client)"] --> C["before_save"] --> D["frappe.call('save')"] --> E["handler"] --> F["Document.save()"] --> G["before_validate"] --> H["validate"] --> I["before_save"] --> J["db_update"] --> K["on_update"] --> L["response"] --> M["after_save (client)"] --> N["refresh"]
 ```
 
 **bench migrate:**
