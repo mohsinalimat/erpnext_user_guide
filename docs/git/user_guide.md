@@ -260,6 +260,13 @@ After editing:
 Fixed login issue
 ```
 
+## 11. Remove File From Last Commit
+```bash
+git rm --cached <file>        # untrack the file (keeps it on disk)
+git add .gitignore            # stage any other changes (optional)
+git commit --amend --no-edit  # rewrite the last commit without the file
+```
+
 ---
 
 ## Direct One-Line Method
